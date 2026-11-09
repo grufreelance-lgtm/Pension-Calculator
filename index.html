@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pension Calculator – Federal Government Employees of Pakistan</title>
+  <meta name="description" content="Estimate the monthly pension, commutation and gratuity of federal government employees of Pakistan.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1>Pension Calculator</h1>
+      <p>Federal Government Employees of Pakistan</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <form id="calcForm" class="card" novalidate>
+      <h2>Employee &amp; Service Details</h2>
+
+      <div class="grid">
+        <label class="full">Name <span class="opt">(optional)</span>
+          <input type="text" id="name" autocomplete="off">
+        </label>
+
+        <label>Type of retirement
+          <select id="type">
+            <option value="superannuation">Superannuation (age 60)</option>
+            <option value="voluntary">Voluntary / retiring (after 25 years)</option>
+          </select>
+        </label>
+
+        <label>Date of birth
+          <input type="date" id="dob" required>
+        </label>
+
+        <label>Date of appointment
+          <input type="date" id="appointment" required>
+        </label>
+
+        <label>Date of retirement <span class="opt">(last day of service)</span>
+          <input type="date" id="retirement" required>
+        </label>
+      </div>
+
+      <fieldset>
+        <legend>Non-qualifying service <span class="opt">(e.g. extraordinary leave without pay)</span></legend>
+        <div class="inline3">
+          <label>Years <input type="number" id="nqY" min="0" value="0"></label>
+          <label>Months <input type="number" id="nqM" min="0" max="11" value="0"></label>
+          <label>Days <input type="number" id="nqD" min="0" max="30" value="0"></label>
+        </div>
+        <label class="check">
+          <input type="checkbox" id="roundUp" checked>
+          Count a fraction of 6 months or more as a completed year
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pensionable emoluments</legend>
+        <p class="hint">Enter the monthly pensionable pay (basic pay plus any pensionable special/personal pay) for each pay period in the last 24 months
+          (12 months if retiring before 1 July 2024). Add a row each time the pay changed, e.g. after an increment.</p>
+        <div id="segments"></div>
+        <div class="seg-footer">
+          <button type="button" id="addSeg" class="link-btn">+ Add pay period</button>
+          <span id="segInfo" class="hint"></span>
+        </div>
+        <label class="check">
+          <input type="checkbox" id="addNotional">
+          Add notional / usual increment of the retirement year after averaging
+        </label>
+        <label>Notional increment (Rs. per month)
+          <input type="number" id="notional" min="0" step="1">
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Commutation</legend>
+        <div class="grid">
+          <label>Portion of pension to commute (0 – 35%)
+            <input type="number" id="commPct" min="0" max="35" step="1" value="35">
+          </label>
+        </div>
+      </fieldset>
+
+      <details>
+        <summary>Advanced options</summary>
+        <div class="grid">
+          <label>Commutation factor <span class="opt">(years' purchase, from the Finance Division table for your age)</span>
+            <input type="number" id="commFactor" min="0" step="0.01" placeholder="Leave blank to skip lump sum">
+          </label>
+          <label id="volRateWrap">Voluntary retirement reduction (% per year before age 60)
+            <input type="number" id="volRate" min="0" max="100" step="0.1" placeholder="Default 3">
+          </label>
+          <label>Pension increase to preview (%)
+            <input type="number" id="incPct" min="0" step="0.1" placeholder="e.g. 7">
+          </label>
+        </div>
+      </details>
+
+      <div class="actions">
+        <button type="submit">Calculate Pension</button>
+        <button type="reset" class="secondary">Reset</button>
+      </div>
+    </form>
+
+    <section id="results" aria-live="polite" hidden></section>
+
+    <section class="card info">
+      <h2>How it is calculated</h2>
+      <ul>
+        <li><strong>Gross pension</strong> = average emoluments &times; qualifying years &times; 7/300 (30 years gives 70%).</li>
+        <li>Retirement on/after <strong>1 July 2024</strong>: average of the last <strong>24 months</strong>. Earlier: last 12 months.</li>
+        <li>Minimum <strong>10 years</strong> of qualifying service for a pension; below that a gratuity is paid. Service above 30 years is not counted.</li>
+        <li>Up to <strong>35%</strong> of gross pension may be commuted; the rest is the net monthly pension.</li>
+      </ul>
+      <p class="disclaimer">This tool gives an estimate for guidance only. Pension rules change; always confirm with the Finance Division
+        notifications and your Accounts Office / AGPR.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Unofficial estimator &middot; not affiliated with the Government of Pakistan</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
